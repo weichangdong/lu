@@ -7,12 +7,14 @@ import (
 	"strconv"
 	"time"
 
+	"wblog/system"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
+
 	//_ "github.com/go-sql-driver/mysql"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
-	"github.com/wangsongyan/wblog/system"
 )
 
 // I don't need soft delete,so I use customized BaseModel instead gorm.Model

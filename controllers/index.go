@@ -1,16 +1,16 @@
 package controllers
 
 import (
+	"math"
 	"net/http"
 	"strconv"
 
-	"math"
+	"wblog/models"
+	"wblog/system"
 
 	"github.com/gin-gonic/gin"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
-	"github.com/wangsongyan/wblog/models"
-	"github.com/wangsongyan/wblog/system"
 )
 
 func IndexGet(c *gin.Context) {

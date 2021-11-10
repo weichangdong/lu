@@ -5,20 +5,19 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-
-	"path/filepath"
-
 	"os"
+	"path/filepath"
 	"strings"
+
+	"wblog/controllers"
+	"wblog/helpers"
+	"wblog/models"
+	"wblog/system"
 
 	"github.com/cihub/seelog"
 	"github.com/claudiu/gocron"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/wangsongyan/wblog/controllers"
-	"github.com/wangsongyan/wblog/helpers"
-	"github.com/wangsongyan/wblog/models"
-	"github.com/wangsongyan/wblog/system"
 )
 
 func main() {

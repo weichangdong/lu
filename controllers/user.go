@@ -7,14 +7,15 @@ import (
 	"net/http"
 	"strconv"
 
+	"wblog/helpers"
+	"wblog/models"
+	"wblog/system"
+
 	"github.com/alimoeeny/gooauth2"
 	"github.com/cihub/seelog"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
-	"github.com/wangsongyan/wblog/helpers"
-	"github.com/wangsongyan/wblog/models"
-	"github.com/wangsongyan/wblog/system"
 )
 
 type GithubUserInfo struct {
@@ -108,6 +109,7 @@ func SigninPost(c *gin.Context) {
 	}
 	user, err = models.GetUserByUsername(username)
 	if err != nil || user.Password != helpers.Md5(username+password) {
+		fmt.Println("debug:",helpers.Md5(username+password), " user.Password: ",user.Password)
 		c.HTML(http.StatusOK, "auth/signin.html", gin.H{
 			"message": "invalid username or password",
 		})

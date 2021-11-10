@@ -1,21 +1,14 @@
 package controllers
 
 import (
-	"bytes"
-	"context"
-	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"os"
 
-	"github.com/cihub/seelog"
+	"wblog/helpers"
+	"wblog/system"
+
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"github.com/qiniu/api.v7/storage"
-	"github.com/wangsongyan/wblog/helpers"
-	"github.com/wangsongyan/wblog/system"
 )
 
 func BackupPost(c *gin.Context) {
@@ -74,51 +67,5 @@ func RestorePost(c *gin.Context) {
 }
 
 func Backup() (err error) {
-	var (
-		u           *url.URL
-		exist       bool
-		ret         PutRet
-		bodyBytes   []byte
-		encryptData []byte
-	)
-	u, err = url.Parse(system.GetConfiguration().DSN)
-	if err != nil {
-		seelog.Debug("parse dsn error:%v", err)
-		return
-	}
-	exist, _ = helpers.PathExists(u.Path)
-	if !exist {
-		err = errors.New("database file doesn't exists.")
-		seelog.Debug("database file doesn't exists.")
-		return
-	}
-	seelog.Debug("start backup...")
-	bodyBytes, err = ioutil.ReadFile(u.Path)
-	if err != nil {
-		seelog.Error(err)
-		return
-	}
-	encryptData, err = helpers.Encrypt(bodyBytes, system.GetConfiguration().BackupKey)
-	if err != nil {
-		seelog.Error(err)
-		return
-	}
-
-	putPolicy := storage.PutPolicy{
-		Scope: system.GetConfiguration().QiniuBucket,
-	}
-	mac := qbox.NewMac(system.GetConfiguration().QiniuAccessKey, system.GetConfiguration().QiniuSecretKey)
-	token := putPolicy.UploadToken(mac)
-	cfg := storage.Config{}
-	uploader := storage.NewFormUploader(&cfg)
-	putExtra := storage.PutExtra{}
-
-	fileName := fmt.Sprintf("wblog_%s.db", helpers.GetCurrentTime().Format("20060102150405"))
-	err = uploader.Put(context.Background(), &ret, token, fileName, bytes.NewReader(encryptData), int64(len(encryptData)), &putExtra)
-	if err != nil {
-		seelog.Debugf("backup error:%v", err)
-		return
-	}
-	seelog.Debug("backup succeefully.")
-	return err
+	return
 }
